@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Temps d’écran – Maquette</title>
+<style>
+:root{--bg:#000;--card:#1c1c1e;--card2:#2c2c2e;--sep:#38383a;--t2:#8e8e93;--blue:#0a84ff;--green:#30d158;--cyan:#00d3f2;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0;background:var(--bg);color:#fff;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased;user-select:none}
+#phone{position:relative;max-width:430px;height:100%;margin:0 auto;overflow:hidden;background:var(--bg)}
+@media(min-width:500px){body{background:#111;display:flex;align-items:center;justify-content:center}
+#phone{height:min(932px,96vh);border-radius:48px;border:10px solid #2a2a2c;width:430px}}
+.status{display:none;position:absolute;top:0;left:0;right:0;height:50px;z-index:60;padding:16px 34px 0;justify-content:space-between;font-weight:600;font-size:16px;pointer-events:none}
+@media(min-width:500px){.status{display:flex}}
+.status .r{display:flex;gap:6px;align-items:center}
+.batt{background:#d1d1d6;color:#000;font-size:12px;font-weight:700;border-radius:6px;padding:0 5px;height:15px;line-height:15px}
+.page{position:absolute;inset:0;overflow-y:auto;background:var(--bg);padding:0 16px 40px;transition:transform .38s cubic-bezier(.2,.8,.25,1);will-change:transform}
+.page.right{transform:translateX(100%)}.page.left{transform:translateX(-30%)}
+.nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:center;height:96px;padding-top:34px;margin:0 -16px 6px;background:linear-gradient(#000 60%,rgba(0,0,0,0))}
+@media(max-width:499px){.nav{height:64px;padding-top:6px}}
+.nav h1{margin:0;font-size:17px;font-weight:600}
+.back{position:absolute;left:16px;bottom:8px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(60,60,64,.72);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer}
+@media(max-width:499px){.back{bottom:2px}}
+.back:active{background:rgba(90,90,95,.8)}
+h2.dev{font-size:22px;font-weight:700;color:var(--t2);margin:6px 6px 8px}
+h3.sec{font-size:22px;font-weight:600;color:var(--t2);margin:26px 6px 8px;letter-spacing:-.2px}
+.card{background:var(--card);border-radius:26px;overflow:hidden}
+.row{display:flex;align-items:center;gap:14px;padding:13px 18px 13px 16px;cursor:pointer;position:relative}
+.row:active{background:var(--card2)}
+.row+.row:before{content:"";position:absolute;top:0;left:62px;right:0;height:.5px;background:var(--sep)}
+.row.plain+.row.plain:before{left:16px}
+.ico{width:42px;height:42px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center}
+.txt{flex:1;min-width:0}.txt b{display:block;font-weight:400;font-size:19px;line-height:1.2}
+.txt span{display:block;font-size:17px;color:var(--t2);line-height:1.25;margin-top:2px}
+.chev{width:9px;height:9px;border:solid #5a5a5e;border-width:0 2.5px 2.5px 0;transform:rotate(-45deg);flex:none;margin-right:2px}
+.foot{font-size:15px;color:var(--t2);margin:10px 8px 0;line-height:1.3}
+.chart{padding:18px 16px 0}
+.big{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.big small{font-size:17px;color:var(--t2);display:block}
+.big strong{font-size:44px;font-weight:600;letter-spacing:-1px;line-height:1.1}
+.delta{font-size:17px;color:var(--t2);display:flex;gap:6px;max-width:175px;margin-top:14px;line-height:1.15}
+.delta i{width:22px;height:22px;border-radius:50%;background:#8e8e93;color:#000;font-style:normal;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex:none}
+.plot{position:relative;height:190px;margin-top:10px}
+.plot .g{position:absolute;left:0;right:48px;border-top:1px solid #333;}
+.plot .lab{position:absolute;right:0;font-size:16px;color:var(--t2)}
+.plot .avg{position:absolute;left:0;right:48px;border-top:2px dashed var(--green)}
+.plot .avgl{position:absolute;right:0;color:var(--green);font-size:16px}
+.bars{position:absolute;left:0;right:48px;top:0;bottom:30px;display:grid;grid-template-columns:repeat(7,1fr);align-items:end;border-left:1px dashed #333;border-right:1px dashed #333}
+.bars div{display:flex;justify-content:center;align-items:flex-end;height:100%;border-right:1px dashed #333}
+.bars div:last-child{border-right:0}.bars u{width:50%;background:var(--cyan);border-radius:4px 4px 0 0;text-decoration:none}
+.days{position:absolute;left:0;right:48px;bottom:0;display:grid;grid-template-columns:repeat(7,1fr);color:var(--t2);font-size:19px}
+.days span{padding-left:6px}
+.seeall{border-top:1px solid var(--sep);margin:14px -16px 0;padding:16px;display:flex;justify-content:space-between;align-items:center;font-size:19px;cursor:pointer}
+.seeall:active{background:var(--card2)}
+.upd{font-size:17px;color:var(--t2);margin:12px 6px 18px}
+.promo{padding:18px 18px 0;display:flex;gap:14px;position:relative}
+.promo .link{display:block;border-top:.5px solid var(--sep);margin:14px -18px 0 56px;padding:14px 20px;color:var(--blue);font-size:21px;text-align:left;line-height:1.3}
+.x{position:absolute;right:18px;top:20px;color:var(--t2);cursor:pointer;width:22px;height:22px}
+.sw{position:relative;width:51px;height:31px;flex:none}
+.sw input{opacity:0;position:absolute;inset:0;margin:0;z-index:2;cursor:pointer}
+.sw s{position:absolute;inset:0;border-radius:31px;background:#39393d;transition:.3s}
+.sw s:before{content:"";position:absolute;width:27px;height:27px;left:2px;top:2px;border-radius:50%;background:#fff;transition:.3s cubic-bezier(.2,.8,.25,1);box-shadow:0 3px 8px rgba(0,0,0,.3)}
+.sw input:checked+s{background:var(--green)}.sw input:checked+s:before{transform:translateX(20px)}
+.pw{position:absolute;inset:0;z-index:50;background:#000;display:flex;flex-direction:column;align-items:center;transform:translateY(100%);transition:transform .4s cubic-bezier(.2,.8,.25,1)}
+.pw.show{transform:none}
+.pw .top{width:100%;height:96px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px;font-weight:600;font-size:17px;position:relative}
+@media(max-width:499px){.pw .top{height:64px;padding-bottom:12px}}
+.pw .back{right:16px;left:auto;bottom:4px}
+.pw p{margin:80px 0 26px;font-size:19px;font-weight:500}
+.dots{display:flex;gap:26px}.dots i{width:16px;height:16px;border-radius:50%;border:1.5px solid #fff}.dots i.f{background:#fff}
+.dots.shake{animation:sh .45s}@keyframes sh{20%{transform:translateX(-14px)}40%{transform:translateX(12px)}60%{transform:translateX(-8px)}80%{transform:translateX(5px)}}
+.pad{margin-top:auto;width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 12px 28px;background:linear-gradient(#26263a,#1b1b28);border-radius:34px 34px 0 0}
+.pad button{height:62px;border:0;border-radius:12px;background:rgba(150,155,200,.45);color:#fff;font-size:30px;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;cursor:pointer}
+.pad button small{font-size:10px;letter-spacing:2px;font-weight:700;margin-top:3px;height:10px}
+.pad button:active{background:rgba(200,205,240,.7)}.pad .e{background:none}
+.pick{display:flex;justify-content:center;gap:0;height:200px;position:relative;margin:8px 0}
+.pick:before{content:"";position:absolute;left:0;right:0;top:80px;height:40px;background:#2c2c2e;border-radius:10px}
+.wheel{width:110px;height:200px;overflow-y:scroll;scroll-snap-type:y mandatory;padding:80px 0;scrollbar-width:none;position:relative;text-align:center}
+.wheel::-webkit-scrollbar{display:none}.wheel div{height:40px;line-height:40px;font-size:23px;scroll-snap-align:center;text-align:right;padding-right:10px;color:#999}
+.wheel div.on{color:#fff}.unit{align-self:center;font-size:19px;font-weight:600;width:70px;z-index:1}
+.days7{display:flex;gap:6px;justify-content:space-between}.days7 b{flex:1;height:42px;border-radius:21px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-weight:500;font-size:16px;cursor:pointer}
+.days7 b.on{background:var(--blue)}
+.tag{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-size:11px;color:#555;z-index:70;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="phone">
+<div class="status"><span id="clk">18:55</span><span class="r"><svg width="20" height="13" viewBox="0 0 20 13" fill="#fff"><rect x="0" y="8" width="3.5" height="5" rx="1"/><rect x="5.5" y="5.5" width="3.5" height="7.5" rx="1"/><rect x="11" y="3" width="3.5" height="10" rx="1" opacity=".4"/><rect x="16.5" y="0" width="3.5" height="13" rx="1" opacity=".4"/></svg><svg width="18" height="13" viewBox="0 0 18 13" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M1.5 4.5a11 11 0 0115 0M4.2 7.5a7 7 0 019.6 0"/><circle cx="9" cy="10.8" r="1" fill="#fff"/></svg><span class="batt">34</span></span></div>
+
+<!-- PAGE 1 -->
+<section class="page" id="p-main">
+ <div class="nav"><button class="back" aria-label="Retour"><svg width="14" height="22" viewBox="0 0 14 22" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2L3 11l8 9"/></svg></button><h1>Temps d’écran</h1></div>
+ <h2 class="dev">iPhone de César</h2>
+ <div class="card"><div class="chart">
+  <div class="big"><div><small>Moyenne quotidienne</small><strong>3h 54min</strong></div><div class="delta"><i>↑</i><span>46 % par rapport à la semaine précédente</span></div></div>
+  <div class="plot"><div class="avg" style="top:2px"></div><span class="avgl" style="top:-12px">moy.</span>
+   <div class="g" style="top:62px"></div><span class="lab" style="top:48px">2h</span><div class="g" style="top:96px"></div><div class="g" style="top:130px"></div><span class="lab" style="top:152px">0</span>
+   <div class="bars"><div><u style="height:95%"></u></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+   <div class="days"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div></div>
+  <div class="seeall">Voir toute l’activité (apps et sites web)<span class="chev"></span></div></div></div>
+ <div class="upd">Mise à jour : aujourd’hui à <span class="ut">18:55</span></div>
+ <p class="foot" style="font-size:18px;margin:0 6px 18px">Vos parents ou tuteurs peuvent voir combien de temps vous passez sur cet iPhone, ainsi que les apps que vous utilisez et les sites web que vous consultez. Ils peuvent également gérer certains réglages et définir des limites d’utilisation pour votre iPhone.</p>
+ <div class="card" id="promo"><div class="promo"><div class="ico" style="background:#0a7cff;width:46px;height:46px"><svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M3 4h12a2 2 0 012 2v7a2 2 0 01-2 2H9l-4 3v-3H3a2 2 0 01-2-2V6a2 2 0 012-2z"/><path d="M19 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-1v2l-3-2h-4" opacity=".7"/></svg></div>
+  <div class="txt" style="padding-right:30px"><b style="font-size:21px;font-weight:500;line-height:1.2">Améliorer la sécurité des communications</b><span>Aidez Apple à améliorer la détection des photos sensibles en partageant des analyses et des données d’utilisation.</span></div>
+  <svg class="x" id="px" viewBox="0 0 22 22" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 4l14 14M18 4L4 18"/></svg></div>
+  <a class="link">Améliorer la sécurité des communications</a></div>
+
+ <h3 class="sec">Limiter l’utilisation</h3>
+ <div class="card">
+  <div class="row"><div class="ico" style="background:#16161a"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#5e5ce6" stroke-width="2" stroke-linecap="round"><path d="M12 6v6l4 2"/><path d="M19.5 14a8 8 0 11-5-9.2"/><path d="M17.5 3.5l1 1M20 7l1.3.4M21 11l1.4 0"/></svg></div><div class="txt"><b>Temps d’arrêt</b><span>Non</span></div><span class="chev"></span></div>
+  <div class="row" data-go="p-lim"><div class="ico" style="background:#16161a"><svg width="24" height="28" viewBox="0 0 24 28" fill="none" stroke="#ff9f0a" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M4 3h16M4 25h16M5.5 3c0 7 5 8 6.500 11-1.500 3-6.500 4-6.500 11M18.500 3c0 7-5 8-6.500 11 1.500 3 6.500 4 6.500 11"/></svg></div><div class="txt"><b>Limites d’app</b><span>Limitez le temps d’utilisation des apps</span></div><span class="chev"></span></div>
+  <div class="row"><div class="ico" style="background:#32d74b"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l5 5 9-10"/></svg></div><div class="txt"><b>Toujours autorisées</b><span>Choisissez les apps à toujours autoriser</span></div><span class="chev"></span></div>
+  <div class="row"><div class="ico" style="background:#f2f2f7"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0a84ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l7-6 7 6M5 17l7-6 7 6M5 23l7-6 7 6" transform="translate(0 -3)"/></svg></div><div class="txt"><b>Distance de l’écran</b><span>Réduisez votre fatigue oculaire.</span></div><span class="chev"></span></div>
+ </div>
+ <h3 class="sec">Communication</h3>
+ <div class="card">
+  <div class="row"><div class="ico" style="background:#32d74b"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="10" r="3"/><path d="M6.500 19c1-3 3-4 5.500-4s4.500 1 5.500 4"/></svg></div><div class="txt"><b>Limites de communication</b><span>Définissez des limites pour les appels et les messages.</span></div><span class="chev"></span></div>
+  <div class="row"><div class="ico" style="background:#0a7cff"><svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M2 5a2 2 0 012-2h9a2 2 0 012 2v6a2 2 0 01-2 2H8l-4 3v-3a2 2 0 01-2-2z"/><path d="M17 8h3a2 2 0 012 2v6a2 2 0 01-2 2v3l-3.500-3H12" opacity=".7"/></svg></div><div class="txt"><b>Sécurité des communications</b><span>Oui</span></div><span class="chev"></span></div>
+ </div>
+ <h3 class="sec">Restrictions</h3>
+ <div class="card"><div class="row"><div class="ico" style="background:#ee4b43"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.600"><circle cx="12" cy="12" r="9"/><path d="M5.600 5.600l12.800 12.800"/></svg></div><div class="txt"><b>Contenu et confidentialité</b><span>Gérez le contenu, les apps et les réglages.</span></div><span class="chev"></span></div></div>
+ <h3 class="sec">Apps pouvant accéder à Temps d’écran</h3>
+ <div class="card">
+  <div class="row plain"><div class="ico" style="background:#1a1a1c;width:40px;height:40px;border:1px solid #333"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.200" stroke-linejoin="round"><path d="M12 2l5 5-5 5-5-5zM12 12l5 5-5 5-5-5z"/></svg></div><div class="txt"><b>Relimit</b></div><label class="sw"><input type="checkbox" checked><s></s></label></div>
+  <div class="row plain"><div class="ico" style="background:#fff;width:40px;height:40px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6a5cff" stroke-width="3" stroke-linecap="round"><path d="M6 19V11a6 6 0 0112 0v8"/><circle cx="10" cy="12" r="1.200" fill="#6a5cff"/></svg></div><div class="txt"><b>Mirror</b></div><label class="sw"><input type="checkbox" checked><s></s></label></div>
+ </div>
+ <p class="foot">Ces apps ont demandé l’autorisation de limiter l’utilisation de cet iPhone.</p>
+ <div class="card" style="margin-top:22px"><div class="row plain" style="cursor:default"><div class="txt"><b>Partager entre les appareils</b></div><label class="sw"><input type="checkbox"><s></s></label></div></div>
+ <p class="foot">Vous pouvez activer cette option sur n’importe quel appareil connecté à iCloud pour synchroniser vos réglages « Temps d’écran ».</p>
+</section>
+
+<!-- PAGE 2 -->
+<section class="page right" id="p-lim">
+ <div class="nav"><button class="back" data-back><svg width="14" height="22" viewBox="0 0 14 22" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2L3 11l8 9"/></svg></button><h1>Limites d’app</h1></div>
+ <div class="card"><div class="row plain" style="cursor:default"><div class="txt"><b>Limites d’app</b></div><label class="sw"><input type="checkbox" id="limsw" checked><s></s></label></div></div>
+ <p class="foot" style="font-size:14px">Définissez des limites de temps quotidiennes pour les catégories d’apps que vous voulez gérer. Les limites sont réinitialisées chaque jour à minuit.</p>
+ <h3 class="sec" style="font-size:13px;text-transform:uppercase;font-weight:400;margin-top:26px">Limites</h3>
+ <div class="card"><div class="row plain" id="limrow"><div class="txt"><b style="font-size:17px;font-weight:500">YouTube, Roblox et 8 autres</b><span id="lbl" style="font-size:14px">45 min, tous les jours</span></div><span class="chev"></span></div></div>
+ <div class="card" style="margin-top:12px"><div class="row plain"><div class="txt"><b style="color:var(--blue);font-size:17px">Ajouter une limite</b></div></div></div>
+</section>
+
+<!-- PAGE 3 -->
+<section class="page right" id="p-edit">
+ <div class="nav"><button class="back" data-back><svg width="14" height="22" viewBox="0 0 14 22" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2L3 11l8 9"/></svg></button><h1>Modifier la limite</h1></div>
+ <div class="card"><div class="row plain" style="cursor:default"><div class="txt"><b>Durée</b></div></div>
+  <div class="pick"><div class="wheel" id="wh"></div><span class="unit">h</span><div class="wheel" id="wm"></div><span class="unit">min</span></div></div>
+ <h3 class="sec" style="font-size:13px;text-transform:uppercase;font-weight:400">Jours</h3>
+ <div class="days7" id="d7"><b class="on">L</b><b class="on">M</b><b class="on">M</b><b class="on">J</b><b class="on">V</b><b class="on">S</b><b class="on">D</b></div>
+ <div class="card" style="margin-top:22px"><div class="row plain" id="ok" style="justify-content:center"><b style="color:var(--blue);font-weight:600;font-size:19px">OK</b></div></div>
+</section>
+
+<!-- CODE -->
+<section class="pw" id="pw">
+ <div class="top">Saisissez le code<button class="back" id="pwx"><svg width="16" height="16" viewBox="0 0 16 16" stroke="#fff" stroke-width="2.600" stroke-linecap="round"><path d="M2 2l12 12M14 2L2 14"/></svg></button></div>
+ <p>Saisissez le code de « Temps d’écran »</p>
+ <div class="dots" id="dots"><i></i><i></i><i></i><i></i></div>
+ <div class="pad" id="pad"></div>
+</section>
+<div class="tag">Maquette de démonstration – non affiliée à Apple · aucun code n’est enregistré</div>
+</div>
+
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)},pages=['p-main','p-lim','p-edit'],stack=['p-main'],pin='',after=null;
+function tick(){var d=new Date(),t=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);$('#clk').textContent=t;$('.ut').textContent=t}
+tick();setInterval(tick,15000);
+function go(id){var cur=stack[stack.length-1];$('#'+cur).classList.add('left');$('#'+id).classList.remove('right','left');stack.push(id)}
+function back(){if(stack.length<2)return;var c=stack.pop();$('#'+c).classList.add('right');$('#'+stack[stack.length-1]).classList.remove('left')}
+document.querySelectorAll('[data-back]').forEach(function(b){b.onclick=back});
+$('#p-main .back').onclick=function(){};
+document.querySelectorAll('[data-go]').forEach(function(r){r.onclick=function(){go(r.dataset.go)}});
+$('#px').onclick=function(){var p=$('#promo');p.style.transition='opacity .25s';p.style.opacity=0;setTimeout(function(){p.style.display='none'},250)};
+/* code */
+var L={2:'ABC',3:'DEF',4:'GHI',5:'JKL',6:'MNO',7:'PQRS',8:'TUV',9:'WXYZ'},pad=$('#pad'),h='';
+[1,2,3,4,5,6,7,8,9,'',0,'⌫'].forEach(function(k){h+=k===''?'<button class="e" disabled></button>':'<button data-k="'+k+'">'+(k==='⌫'?'<svg width="30" height="22" viewBox="0 0 30 22" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M10 1h17a2 2 0 012 2v16a2 2 0 01-2 2H10L1 11z"/><path d="M15 7l8 8M23 7l-8 8"/></svg>':k+'<small>'+(L[k]||'')+'</small>')+'</button>'});
+pad.innerHTML=h;
+function dots(){document.querySelectorAll('#dots i').forEach(function(d,i){d.className=i<pin.length?'f':''})}
+function openPw(cb){after=cb;pin='';dots();$('#pw').classList.add('show')}
+function closePw(){$('#pw').classList.remove('show')}
+$('#pwx').onclick=closePw;
+pad.onclick=function(e){var b=e.target.closest('button[data-k]');if(!b)return;var k=b.dataset.k;
+ if(k==='⌫'){pin=pin.slice(0,-1);dots();return}
+ if(pin.length>=4)return;pin+=k;dots();
+ if(pin.length===4){setTimeout(function(){pin='';closePw();setTimeout(function(){dots();if(after)after()},200)},180)}};
+$('#limrow').onclick=function(){openPw(function(){go('p-edit')})};
+var sw=$('#limsw');sw.onclick=function(e){var want=sw.checked;e.preventDefault();openPw(function(){setTimeout(function(){sw.checked=want},60)})};
+/* picker */
+function wheel(el,n,v){var s='';for(var i=0;i<n;i++)s+='<div>'+i+'</div>';el.innerHTML=s;var items=el.children;
+ function mark(){var i=Math.round(el.scrollTop/40);for(var j=0;j<items.length;j++)items[j].className=j===i?'on':''}
+ el.onscroll=mark;el.scrollTop=v*40;mark()}
+function val(el){return Math.round(el.scrollTop/40)}
+wheel($('#wh'),24,0);wheel($('#wm'),60,45);
+document.querySelectorAll('#d7 b').forEach(function(b){b.onclick=function(){b.classList.toggle('on')}});
+$('#ok').onclick=function(){var hh=val($('#wh')),mm=val($('#wm')),on=document.querySelectorAll('#d7 b.on').length,t=(hh?hh+' h ':'')+(mm||!hh?mm+' min':'');
+ $('#lbl').textContent=t.trim()+(on===7?', tous les jours':', '+on+' jours par semaine');back()};
+})();
+</script>
+</body>
+</html>
