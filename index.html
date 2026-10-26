@@ -75,7 +75,7 @@ h3.sec{font-size:22px;font-weight:600;color:var(--t2);margin:26px 6px 8px;letter
 .pad{margin-top:auto;width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 12px 28px;background:linear-gradient(#26263a,#1b1b28);border-radius:34px 34px 0 0}
 .pad button{height:62px;border:0;border-radius:12px;background:rgba(150,155,200,.45);color:#fff;font-size:30px;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;cursor:pointer}
 .pad button small{font-size:10px;letter-spacing:2px;font-weight:700;margin-top:3px;height:10px}
-.pad button:active{background:rgba(200,205,240,.7)}.pad .e{background:none}
+.pad button:active,.pad button.press{background:rgba(210,215,245,.75);transition:none}.pad button{transition:background .18s}.pad .e{background:none}
 .pick{display:flex;justify-content:center;gap:0;height:200px;position:relative;margin:8px 0}
 .pick:before{content:"";position:absolute;left:0;right:0;top:80px;height:40px;background:#2c2c2e;border-radius:10px}
 .wheel{width:110px;height:200px;overflow-y:scroll;scroll-snap-type:y mandatory;padding:80px 0;scrollbar-width:none;position:relative;text-align:center}
@@ -159,7 +159,7 @@ h3.sec{font-size:22px;font-weight:600;color:var(--t2);margin:26px 6px 8px;letter
  <div class="dots" id="dots"><i></i><i></i><i></i><i></i></div>
  <div class="pad" id="pad"></div>
 </section>
-<div class="tag"></div>
+<div class="tag">Bêta</div>
 </div>
 
 <script>
@@ -185,6 +185,9 @@ pad.onclick=function(e){var b=e.target.closest('button[data-k]');if(!b)return;va
  if(k==='⌫'){pin=pin.slice(0,-1);dots();return}
  if(pin.length>=4)return;pin+=k;dots();
  if(pin.length===4){setTimeout(function(){pin='';closePw();setTimeout(function(){dots();if(after)after()},200)},180)}};
+pad.addEventListener('touchstart',function(){},{passive:true});
+pad.addEventListener('pointerdown',function(e){var b=e.target.closest('button[data-k]');if(!b)return;b.classList.add('press');b._t=Date.now()});
+['pointerup','pointercancel','pointerleave'].forEach(function(ev){pad.addEventListener(ev,function(e){var b=e.target.closest('button[data-k]');if(!b||!b.classList.contains('press'))return;var w=Math.max(0,110-(Date.now()-b._t));setTimeout(function(){b.classList.remove('press')},w)},true)});
 $('#limrow').onclick=function(){openPw(function(){go('p-edit')})};
 var sw=$('#limsw');sw.onclick=function(e){var want=sw.checked;e.preventDefault();openPw(function(){setTimeout(function(){sw.checked=want},60)})};
 /* picker */
